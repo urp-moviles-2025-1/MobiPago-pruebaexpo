@@ -9,7 +9,7 @@ Carlos Alejandro Ramírez Lucar
 Jesús Keith Sánchez Castillon
 
 Proyecto final: MobiPago
-MobiPago es una aplicación móvil de pagos electrónicos diseñada para transformar la experiencia de pago en Perú. Con una interfaz intuitiva, MobiPago permite a los usuarios realizar transferencias de dinero entre amigos, pagar servicios y comprar en comercios de manera rápida y segura, todo desde su dispositivo móvil. La aplicación busca ser una herramienta accesible y confiable para facilitar las transacciones cotidianas y promover la inclusión financiera en el país.
+Es una aplicación móvil de pagos electrónicos, con el objetivo de ofrecer una solución accesible, segura e intuitiva para realizar transacciones financieras desde el teléfono celular. La app permitirá a los usuarios enviar y recibir dinero, pagar servicios y realizar compras en comercios afiliados. El proyecto busca mejorar la experiencia de pago en Perú, fomentar la inclusión financiera digital y reducir la dependencia del efectivo en el entorno cotidiano.
 
 Mock up a utilizar: Wpay
 
