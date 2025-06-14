@@ -51,10 +51,9 @@ export default function MiPerfil({ navigation }) {
   }
 
   const handleSoporte = () => {
-    Alert.alert(
-      "Soporte",
-      "Contacta con nuestro equipo de soporte:\n\nEmail: soporte@mobipago.com\nTeléfono: +51 999 999 999",
-    )
+    if (navigation) {
+      navigation.navigate("Soporte")
+    }
   }
 
   const handleCerrarSesion = () => {
