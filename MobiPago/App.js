@@ -1,5 +1,7 @@
 import { View, Text, StyleSheet, SafeAreaView, ScrollView, TouchableOpacity, StatusBar } from "react-native"
+import { perfil } from "./data/dummy-data"
 
+// Componente de icono simple
 const Icon = ({ name, size = 24, color = "#000" }) => (
   <View style={[styles.iconPlaceholder, { width: size, height: size }]}>
     <Text style={{ color, fontSize: size * 0.6, fontWeight: "bold" }}>{name}</Text>
@@ -7,36 +9,23 @@ const Icon = ({ name, size = 24, color = "#000" }) => (
 )
 
 export default function App() {
-  const transactions = [
-    {
-      id: 1,
-      name: "Carlos R. Lucar",
-      amount: 5.0,
-      date: "12/05/2025 - 11:15 am",
-      type: "income",
-    },
-    {
-      id: 2,
-      name: "Carlos R. Lucar",
-      amount: -15.0,
-      date: "12/05/2025 - 10:15 am",
-      type: "expense",
-    },
-    {
-      id: 3,
-      name: "*** *** 156",
-      amount: 20.0,
-      date: "12/05/2025 - 10:15 am",
-      type: "income",
-    },
-    {
-      id: 4,
-      name: "Humberto A. Linarez",
-      amount: 100.0,
-      date: "12/05/2025 - 10:15 am",
-      type: "income",
-    },
-  ]
+  // Función para formatear el monto con el signo correcto
+  const formatAmount = (amount) => {
+    const absAmount = Math.abs(amount)
+    return amount < 0 ? `-S/ ${absAmount.toFixed(2)}` : `S/ ${absAmount.toFixed(2)}`
+  }
+
+  // Función para obtener las iniciales del nombre completo
+  const getInitials = (nombre, apellidos) => {
+    const firstInitial = nombre ? nombre.charAt(0).toUpperCase() : ""
+    const lastInitial = apellidos ? apellidos.charAt(0).toUpperCase() : ""
+    return firstInitial + lastInitial
+  }
+
+  // Función para formatear el balance
+  const formatBalance = (balance) => {
+    return `S/.${balance.toLocaleString("es-PE", { minimumFractionDigits: 3 })}`
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -47,11 +36,13 @@ export default function App() {
         <View style={styles.headerContent}>
           <View style={styles.userInfo}>
             <View style={styles.avatar}>
-              <Text style={styles.avatarText}>CR</Text>
+              <Text style={styles.avatarText}>{getInitials(perfil.nombre, perfil.apellidos)}</Text>
             </View>
             <View>
               <Text style={styles.welcomeText}>Bienvenido de vuelta,</Text>
-              <Text style={styles.userName}>Carlos R. Lucar</Text>
+              <Text style={styles.userName}>
+                {perfil.nombre} {perfil.apellidos}
+              </Text>
             </View>
           </View>
           <TouchableOpacity style={styles.notificationButton}>
@@ -70,20 +61,33 @@ export default function App() {
             </TouchableOpacity>
           </View>
 
-          {transactions.map((transaction, index) => (
-            <View key={transaction.id}>
-              <View style={styles.transactionItem}>
-                <View style={styles.transactionInfo}>
-                  <Text style={styles.transactionName}>{transaction.name}</Text>
-                  <Text style={styles.transactionDate}>{transaction.date}</Text>
+          {perfil.transacciones && perfil.transacciones.length > 0 ? (
+            perfil.transacciones.slice(0, 4).map((transaccion, index) => (
+              <View key={transaccion.id || index}>
+                <View style={styles.transactionItem}>
+                  <View style={styles.transactionInfo}>
+                    <Text style={styles.transactionName}>
+                      {transaccion.destinatario || transaccion.remitente || "Transacción"}
+                    </Text>
+                    <Text style={styles.transactionDate}>
+                      {transaccion.fecha || new Date().toLocaleDateString("es-PE")} -{" "}
+                      {transaccion.hora ||
+                        new Date().toLocaleTimeString("es-PE", { hour: "2-digit", minute: "2-digit" })}{" "}
+                      am
+                    </Text>
+                  </View>
+                  <Text style={[styles.transactionAmount, transaccion.monto < 0 && styles.expenseAmount]}>
+                    {formatAmount(transaccion.monto)}
+                  </Text>
                 </View>
-                <Text style={[styles.transactionAmount, transaction.type === "expense" && styles.expenseAmount]}>
-                  {transaction.amount < 0 ? "-" : ""}S/ {Math.abs(transaction.amount).toFixed(2)}
-                </Text>
+                {index < Math.min(perfil.transacciones.length, 4) - 1 && <View style={styles.separator} />}
               </View>
-              {index < transactions.length - 1 && <View style={styles.separator} />}
+            ))
+          ) : (
+            <View style={styles.noTransactions}>
+              <Text style={styles.noTransactionsText}>No hay transacciones recientes</Text>
             </View>
-          ))}
+          )}
         </View>
 
         {/* Action Buttons */}
@@ -111,7 +115,7 @@ export default function App() {
         {/* Balance Card */}
         <View style={styles.balanceCard}>
           <Text style={styles.balanceLabel}>Saldo disponible</Text>
-          <Text style={styles.balanceAmount}>S/.12.000</Text>
+          <Text style={styles.balanceAmount}>{formatBalance(perfil.balance)}</Text>
         </View>
 
         {/* Main Action Buttons */}
@@ -139,7 +143,7 @@ export default function App() {
         </TouchableOpacity>
         <TouchableOpacity style={styles.navItem}>
           <Icon name="👤" size={24} color="#000" />
-          <Text style={styles.navText}>Mi Perfil</Text>
+          <Text style={styles.navText}>Mi perfil</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
@@ -255,6 +259,15 @@ const styles = StyleSheet.create({
   },
   expenseAmount: {
     color: "#ff0000",
+  },
+  noTransactions: {
+    alignItems: "center",
+    paddingVertical: 20,
+  },
+  noTransactionsText: {
+    color: "#666",
+    fontSize: 16,
+    fontStyle: "italic",
   },
   actionButtons: {
     flexDirection: "row",

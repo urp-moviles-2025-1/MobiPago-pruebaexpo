@@ -9,3 +9,5 @@ class Perfil {
     this.transacciones = transacciones; // Array de transacciones
   }
 }
+
+export default Perfil

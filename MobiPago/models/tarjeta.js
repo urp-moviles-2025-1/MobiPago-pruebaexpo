@@ -7,3 +7,5 @@ class Tarjeta {
     this.cvv = cvv;
   }
 }
+
+export default Tarjeta

@@ -21,7 +21,7 @@ const transaccionesEjemplo = [
   },
   {
     id: 3,
-    destinatario: "  156",
+    destinatario: "*** *** 156",
     monto: 20.0,
     fecha: "12/05/2025",
     hora: "10:15",
