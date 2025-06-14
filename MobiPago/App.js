@@ -1,5 +1,5 @@
 import { ScrollView, View, Text, StyleSheet, SafeAreaView, TouchableOpacity, StatusBar } from "react-native"
-import { perfil } from "./data/dummy-data"
+import { usePerfil } from "./context/PerfilContext"
 
 // Componente de icono simple
 const Icon = ({ name, size = 24, color = "#000" }) => (
@@ -9,6 +9,8 @@ const Icon = ({ name, size = 24, color = "#000" }) => (
 )
 
 export default function App({ navigation }) {
+  const { perfil } = usePerfil()
+
   // Función para formatear el monto con el signo correcto
   const formatAmount = (amount) => {
     const absAmount = Math.abs(amount)
@@ -37,6 +39,12 @@ export default function App({ navigation }) {
   const handleNavigateToTarjetas = () => {
     if (navigation) {
       navigation.navigate("Tarjetas")
+    }
+  }
+
+  const handleNavigateToMiPerfil = () => {
+    if (navigation) {
+      navigation.navigate("MiPerfil")
     }
   }
 
@@ -159,7 +167,7 @@ export default function App({ navigation }) {
           <Icon name="💳" size={24} color="#000" />
           <Text style={styles.navText}>Mis tarjetas</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem}>
+        <TouchableOpacity style={styles.navItem} onPress={handleNavigateToMiPerfil}>
           <Icon name="👤" size={24} color="#000" />
           <Text style={styles.navText}>Mi Perfil</Text>
         </TouchableOpacity>
@@ -225,7 +233,7 @@ const styles = StyleSheet.create({
   },
   scrollContent: {
     padding: 20,
-    paddingBottom: 20, // Espacio adicional al final
+    paddingBottom: 20,
   },
   movementsCard: {
     backgroundColor: "#93d2fd",
