@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, SafeAreaView, ScrollView, TouchableOpacity, StatusBar } from "react-native"
+import { ScrollView, View, Text, StyleSheet, SafeAreaView, TouchableOpacity, StatusBar } from "react-native"
 import { perfil } from "./data/dummy-data"
 
 // Componente de icono simple
@@ -34,6 +34,12 @@ export default function App({ navigation }) {
     }
   }
 
+  const handleNavigateToTarjetas = () => {
+    if (navigation) {
+      navigation.navigate("Tarjetas")
+    }
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#257beb" />
@@ -58,7 +64,12 @@ export default function App({ navigation }) {
         </View>
       </View>
 
-      <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
+      {/* Scrollable Content */}
+      <ScrollView
+        style={styles.content}
+        contentContainerStyle={styles.scrollContent}
+        showsVerticalScrollIndicator={false}
+      >
         {/* Movements Section */}
         <View style={styles.movementsCard}>
           <View style={styles.movementsHeader}>
@@ -138,13 +149,13 @@ export default function App({ navigation }) {
         </View>
       </ScrollView>
 
-      {/* Bottom Navigation */}
+      {/* Bottom Navigation - FIXED AT BOTTOM */}
       <View style={styles.bottomNav}>
         <TouchableOpacity style={styles.navItem}>
           <Icon name="🏠" size={24} color="#000" />
           <Text style={styles.navText}>Inicio</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem}>
+        <TouchableOpacity style={styles.navItem} onPress={handleNavigateToTarjetas}>
           <Icon name="💳" size={24} color="#000" />
           <Text style={styles.navText}>Mis tarjetas</Text>
         </TouchableOpacity>
@@ -211,7 +222,10 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
+  },
+  scrollContent: {
     padding: 20,
+    paddingBottom: 20, // Espacio adicional al final
   },
   movementsCard: {
     backgroundColor: "#93d2fd",

@@ -40,5 +40,11 @@ const transaccionesEjemplo = [
 // Instancia del perfil del usuario
 export const perfil = new Perfil(1, "Carlos R.", "Lucar", "carlos.lucar", "password123", 12000, transaccionesEjemplo)
 
-// Instancia de tarjeta de ejemplo
-export const tarjeta = new Tarjeta("Tarjeta Principal", "4532 1234 5678 9012", "Carlos R. Lucar", "12/27", "123")
+// Instancias de tarjetas de ejemplo
+export const tarjetas = [
+  new Tarjeta("Tarjeta Principal", "4532 1234 5678 9012", "Carlos R. Lucar", "12/27", "123"),
+  new Tarjeta("Tarjeta Principal 2", "5555 4444 3333 2222", "Carlos R. Lucar", "08/26", "456"),
+]
+
+// Mantener compatibilidad con código existente
+export const tarjeta = tarjetas[0]
