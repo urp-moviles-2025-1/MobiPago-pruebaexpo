@@ -45,7 +45,9 @@ export default function MiPerfil({ navigation }) {
   }
 
   const handleNotificaciones = () => {
-    Alert.alert("Notificaciones", "Funcionalidad en desarrollo")
+    if (navigation) {
+      navigation.navigate("Notificaciones")
+    }
   }
 
   const handleSoporte = () => {

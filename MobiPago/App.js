@@ -48,6 +48,13 @@ export default function App({ navigation }) {
     }
   }
 
+  // Agregar función para navegar a notificaciones
+  const handleNavigateToNotifications = () => {
+    if (navigation) {
+      navigation.navigate("Notificaciones")
+    }
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#257beb" />
@@ -66,7 +73,7 @@ export default function App({ navigation }) {
               </Text>
             </View>
           </View>
-          <TouchableOpacity style={styles.notificationButton}>
+          <TouchableOpacity style={styles.notificationButton} onPress={handleNavigateToNotifications}>
             <Icon name="🔔" size={24} color="#000" />
           </TouchableOpacity>
         </View>
