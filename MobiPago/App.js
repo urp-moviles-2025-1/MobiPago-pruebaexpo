@@ -8,7 +8,7 @@ const Icon = ({ name, size = 24, color = "#000" }) => (
   </View>
 )
 
-export default function App() {
+export default function App({ navigation }) {
   // Función para formatear el monto con el signo correcto
   const formatAmount = (amount) => {
     const absAmount = Math.abs(amount)
@@ -25,6 +25,13 @@ export default function App() {
   // Función para formatear el balance
   const formatBalance = (balance) => {
     return `S/.${balance.toLocaleString("es-PE", { minimumFractionDigits: 3 })}`
+  }
+
+  // Función para navegar a estadísticas
+  const handleNavigateToStatistics = () => {
+    if (navigation) {
+      navigation.navigate("Statistics")
+    }
   }
 
   return (
@@ -104,7 +111,7 @@ export default function App() {
             </View>
             <Text style={styles.actionButtonText}>Transacciones</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.actionButton}>
+          <TouchableOpacity style={styles.actionButton} onPress={handleNavigateToStatistics}>
             <View style={styles.actionButtonIcon}>
               <Icon name="📊" size={28} color="#000" />
             </View>
@@ -143,7 +150,7 @@ export default function App() {
         </TouchableOpacity>
         <TouchableOpacity style={styles.navItem}>
           <Icon name="👤" size={24} color="#000" />
-          <Text style={styles.navText}>Mi perfil</Text>
+          <Text style={styles.navText}>Mi Perfil</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
