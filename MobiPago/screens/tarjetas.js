@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, SafeAreaView, ScrollView, TouchableOpacity, StatusBar } from "react-native"
-import { tarjetas } from "../data/dummy-data"
+import { useTarjetas } from "../context/TarjetasContext"
 
 // Componente de icono simple
 const Icon = ({ name, size = 24, color = "#000" }) => (
@@ -14,11 +14,21 @@ const CardComponent = ({ tarjeta, index }) => {
   const cardStyles = [
     {
       backgroundColor: "#ff9a9e", // Gradiente rosa-naranja
-      backgroundImage: "linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%)",
     },
     {
       backgroundColor: "#667eea", // Gradiente azul-púrpura
-      backgroundImage: "linear-gradient(135deg, #764ba2 0%, #667eea 100%)",
+    },
+    {
+      backgroundColor: "#a8edea", // Gradiente verde-azul
+    },
+    {
+      backgroundColor: "#ffecd2", // Gradiente amarillo-naranja
+    },
+    {
+      backgroundColor: "#d299c2", // Gradiente púrpura-rosa
+    },
+    {
+      backgroundColor: "#89f7fe", // Gradiente azul claro
     },
   ]
 
@@ -26,8 +36,8 @@ const CardComponent = ({ tarjeta, index }) => {
 
   return (
     <TouchableOpacity style={[styles.card, { backgroundColor: cardStyle.backgroundColor }]}>
-      {/* Logo de la tarjeta (solo para la segunda tarjeta) */}
-      {index === 1 && (
+      {/* Logo de la tarjeta (para tarjetas con Mastercard) */}
+      {(index === 1 || index > 1) && (
         <View style={styles.cardLogo}>
           <View style={[styles.logoCircle, { backgroundColor: "#ff5f00" }]} />
           <View style={[styles.logoCircle, { backgroundColor: "#eb001b", marginLeft: -8 }]} />
@@ -50,6 +60,8 @@ const CardComponent = ({ tarjeta, index }) => {
 }
 
 export default function Tarjetas({ navigation }) {
+  const { tarjetas } = useTarjetas()
+
   const handleGoBack = () => {
     if (navigation) {
       navigation.goBack()
@@ -57,8 +69,9 @@ export default function Tarjetas({ navigation }) {
   }
 
   const handleAddNewCard = () => {
-    // Aquí puedes agregar la lógica para agregar una nueva tarjeta
-    console.log("Agregar nueva tarjeta")
+    if (navigation) {
+      navigation.navigate("CrearTarjeta")
+    }
   }
 
   return (
@@ -78,7 +91,7 @@ export default function Tarjetas({ navigation }) {
         {/* Tarjetas */}
         <View style={styles.cardsContainer}>
           {tarjetas.map((tarjeta, index) => (
-            <CardComponent key={index} tarjeta={tarjeta} index={index} />
+            <CardComponent key={`${tarjeta.numero}-${index}`} tarjeta={tarjeta} index={index} />
           ))}
         </View>
 
