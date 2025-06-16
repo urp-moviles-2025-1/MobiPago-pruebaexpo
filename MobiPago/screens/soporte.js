@@ -9,30 +9,35 @@ import {
   Linking,
   Alert,
 } from "react-native"
-
-// Componente de icono simple
-const Icon = ({ name, size = 24, color = "#000" }) => (
-  <View style={[styles.iconPlaceholder, { width: size, height: size }]}>
-    <Text style={{ color, fontSize: size * 0.6, fontWeight: "bold" }}>{name}</Text>
-  </View>
-)
+import { Ionicons, MaterialIcons, FontAwesome5 } from "@expo/vector-icons"
 
 // Componente de información de contacto
-const ContactInfo = ({ icon, title, subtitle, onPress, isClickable = false }) => (
-  <TouchableOpacity
-    style={[styles.contactItem, !isClickable && styles.contactItemDisabled]}
-    onPress={isClickable ? onPress : null}
-    disabled={!isClickable}
-  >
-    <View style={styles.contactIcon}>
-      <Icon name={icon} size={20} color="#ffffff" />
-    </View>
-    <View style={styles.contactContent}>
-      <Text style={styles.contactTitle}>{title}</Text>
-      {subtitle && <Text style={styles.contactSubtitle}>{subtitle}</Text>}
-    </View>
-  </TouchableOpacity>
-)
+const ContactInfo = ({ icon, iconLibrary = "Ionicons", title, subtitle, onPress, isClickable = false }) => {
+  const renderIcon = () => {
+    switch (iconLibrary) {
+      case "MaterialIcons":
+        return <MaterialIcons name={icon} size={20} color="#ffffff" />
+      case "FontAwesome5":
+        return <FontAwesome5 name={icon} size={20} color="#ffffff" />
+      default:
+        return <Ionicons name={icon} size={20} color="#ffffff" />
+    }
+  }
+
+  return (
+    <TouchableOpacity
+      style={[styles.contactItem, !isClickable && styles.contactItemDisabled]}
+      onPress={isClickable ? onPress : null}
+      disabled={!isClickable}
+    >
+      <View style={styles.contactIcon}>{renderIcon()}</View>
+      <View style={styles.contactContent}>
+        <Text style={styles.contactTitle}>{title}</Text>
+        {subtitle && <Text style={styles.contactSubtitle}>{subtitle}</Text>}
+      </View>
+    </TouchableOpacity>
+  )
+}
 
 export default function Soporte({ navigation }) {
   const handleGoBack = () => {
@@ -101,7 +106,7 @@ export default function Soporte({ navigation }) {
       {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity style={styles.backButton} onPress={handleGoBack}>
-          <Icon name="←" size={24} color="#93d2fd" />
+          <Ionicons name="arrow-back" size={24} color="#93d2fd" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Soporte</Text>
         <View style={styles.headerSpacer} />
@@ -112,21 +117,26 @@ export default function Soporte({ navigation }) {
         <View style={styles.contactCard}>
           <View style={styles.cardHeader}>
             <View style={styles.cardIcon}>
-              <Icon name="⚙️" size={32} color="#ffffff" />
+              <Ionicons name="settings" size={32} color="#ffffff" />
             </View>
             <Text style={styles.cardTitle}>Contactate con nosotros</Text>
           </View>
 
           <View style={styles.contactList}>
             {/* WhatsApp */}
-            <ContactInfo icon="📱" title="WhatsApp 999 999 999" isClickable={true} onPress={handleWhatsApp} />
+            <ContactInfo
+              icon="logo-whatsapp"
+              title="WhatsApp 999 999 999"
+              isClickable={true}
+              onPress={handleWhatsApp}
+            />
 
             {/* Teléfono fijo */}
-            <ContactInfo icon="📞" title="Teléfono fijo (01) 555 4444" isClickable={true} onPress={handlePhoneCall} />
+            <ContactInfo icon="call" title="Teléfono fijo (01) 555 4444" isClickable={true} onPress={handlePhoneCall} />
 
             {/* Email */}
             <ContactInfo
-              icon="📧"
+              icon="mail"
               title="E-mail:"
               subtitle="movipago@movipago.com"
               isClickable={true}
@@ -145,21 +155,21 @@ export default function Soporte({ navigation }) {
           <Text style={styles.additionalTitle}>Otras formas de obtener ayuda</Text>
 
           <TouchableOpacity style={styles.supportOption}>
-            <Icon name="❓" size={24} color="#257beb" />
+            <Ionicons name="help-circle" size={24} color="#257beb" />
             <Text style={styles.supportOptionText}>Preguntas Frecuentes</Text>
-            <Icon name="→" size={20} color="#666" />
+            <Ionicons name="chevron-forward" size={20} color="#666" />
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.supportOption}>
-            <Icon name="📖" size={24} color="#257beb" />
+            <Ionicons name="book" size={24} color="#257beb" />
             <Text style={styles.supportOptionText}>Guía de Usuario</Text>
-            <Icon name="→" size={20} color="#666" />
+            <Ionicons name="chevron-forward" size={20} color="#666" />
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.supportOption}>
-            <Icon name="🛡️" size={24} color="#257beb" />
+            <Ionicons name="shield-checkmark" size={24} color="#257beb" />
             <Text style={styles.supportOptionText}>Reportar Problema</Text>
-            <Icon name="→" size={20} color="#666" />
+            <Ionicons name="chevron-forward" size={20} color="#666" />
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -320,10 +330,5 @@ const styles = StyleSheet.create({
     color: "#000000",
     marginLeft: 15,
     flex: 1,
-  },
-  iconPlaceholder: {
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "transparent",
   },
 })

@@ -1,13 +1,7 @@
 import { ScrollView, View, Text, StyleSheet, SafeAreaView, TouchableOpacity, StatusBar } from "react-native"
 import { usePerfil } from "./context/PerfilContext"
+import { Ionicons, MaterialIcons } from "@expo/vector-icons"
 import Navbar from "./components/navbar"
-
-// Componente de icono simple
-const Icon = ({ name, size = 24, color = "#000" }) => (
-  <View style={[styles.iconPlaceholder, { width: size, height: size }]}>
-    <Text style={{ color, fontSize: size * 0.6, fontWeight: "bold" }}>{name}</Text>
-  </View>
-)
 
 export default function App({ navigation }) {
   const { perfil } = usePerfil()
@@ -56,28 +50,28 @@ export default function App({ navigation }) {
             </View>
           </View>
           <TouchableOpacity style={styles.notificationButton} onPress={handleNavigateToNotifications}>
-            <Icon name="🔔" size={24} color="#000" />
+            <Ionicons name="notifications" size={24} color="#000" />
           </TouchableOpacity>
         </View>
       </View>
 
-      {/* Scrollable Content */}
-      <ScrollView
-        style={styles.content}
-        contentContainerStyle={styles.scrollContent}
-        showsVerticalScrollIndicator={false}
-      >
-        {/* Movements Section */}
-        <View style={styles.movementsCard}>
-          <View style={styles.movementsHeader}>
-            <Text style={styles.movementsTitle}>Movimientos</Text>
-            <TouchableOpacity>
-              <Text style={styles.seeAllText}>Ver Todo</Text>
-            </TouchableOpacity>
-          </View>
+      {/* Fixed Movements Section */}
+      <View style={styles.movementsCard}>
+        <View style={styles.movementsHeader}>
+          <Text style={styles.movementsTitle}>Movimientos</Text>
+          <TouchableOpacity>
+            <Text style={styles.seeAllText}>Ver Todo</Text>
+          </TouchableOpacity>
+        </View>
 
+        {/* Scrollable Transactions List */}
+        <ScrollView
+          style={styles.transactionsScrollView}
+          showsVerticalScrollIndicator={false}
+          nestedScrollEnabled={true}
+        >
           {perfil.transacciones && perfil.transacciones.length > 0 ? (
-            perfil.transacciones.slice(0, 4).map((transaccion, index) => (
+            perfil.transacciones.map((transaccion, index) => (
               <View key={transaccion.id || index}>
                 <View style={styles.transactionItem}>
                   <View style={styles.transactionInfo}>
@@ -95,7 +89,7 @@ export default function App({ navigation }) {
                     {formatAmount(transaccion.monto)}
                   </Text>
                 </View>
-                {index < Math.min(perfil.transacciones.length, 4) - 1 && <View style={styles.separator} />}
+                {index < perfil.transacciones.length - 1 && <View style={styles.separator} />}
               </View>
             ))
           ) : (
@@ -103,27 +97,34 @@ export default function App({ navigation }) {
               <Text style={styles.noTransactionsText}>No hay transacciones recientes</Text>
             </View>
           )}
-        </View>
+        </ScrollView>
+      </View>
 
+      {/* Scrollable Content Below */}
+      <ScrollView
+        style={styles.bottomContent}
+        contentContainerStyle={styles.bottomScrollContent}
+        showsVerticalScrollIndicator={false}
+      >
         {/* Action Buttons */}
         <View style={styles.actionButtons}>
           <TouchableOpacity style={styles.actionButton}>
             <View style={styles.actionButtonIcon}>
-              <Icon name="⚙️" size={28} color="#000" />
+              <Ionicons name="settings" size={28} color="#000" />
             </View>
             <Text style={styles.actionButtonText}>Ajustes</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.actionButton}>
             <View style={styles.actionButtonIcon}>
-              <Icon name="🔧" size={28} color="#000" />
+              <MaterialIcons name="miscellaneous-services" size={28} color="#000" />
             </View>
             <Text style={styles.actionButtonText}>Servicios</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.actionButton}>
             <View style={styles.actionButtonIcon}>
-              <Icon name="🔍" size={28} color="#000" />
+              <MaterialIcons name="receipt-long" size={28} color="#000" />
             </View>
-            <Text style={styles.actionButtonText}>Transacciones</Text>
+            <Text style={styles.actionButtonText}>Historial</Text>
           </TouchableOpacity>
         </View>
 
@@ -136,17 +137,17 @@ export default function App({ navigation }) {
         {/* Main Action Buttons */}
         <View style={styles.mainActions}>
           <TouchableOpacity style={styles.scanButton}>
+            <Ionicons name="camera" size={20} color="#fff" />
             <Text style={styles.mainActionText}>Escanear</Text>
-            <Icon name="📷" size={20} color="#fff" />
           </TouchableOpacity>
           <TouchableOpacity style={styles.sendButton}>
             <Text style={styles.mainActionText}>Enviar</Text>
-            <Icon name="➤" size={20} color="#fff" />
+            <Ionicons name="send" size={20} color="#fff" />
           </TouchableOpacity>
         </View>
       </ScrollView>
 
-      {/* New Navbar Component */}
+      {/* Navbar Component */}
       <Navbar navigation={navigation} activeScreen="Home" />
     </SafeAreaView>
   )
@@ -204,24 +205,20 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  content: {
-    flex: 1,
-  },
-  scrollContent: {
-    padding: 20,
-    paddingBottom: 100, // Extra padding for the elevated QR button
-  },
+  // Fixed Movements Card
   movementsCard: {
     backgroundColor: "#93d2fd",
+    marginHorizontal: 20,
+    marginTop: 20,
     borderRadius: 20,
     padding: 20,
-    marginBottom: 20,
+    height: 280, // Fixed height
   },
   movementsHeader: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: 20,
+    marginBottom: 15,
   },
   movementsTitle: {
     color: "#ffffff",
@@ -232,6 +229,10 @@ const styles = StyleSheet.create({
     color: "#257beb",
     fontSize: 16,
     fontWeight: "600",
+  },
+  // Scrollable transactions inside the fixed card
+  transactionsScrollView: {
+    flex: 1,
   },
   transactionItem: {
     flexDirection: "row",
@@ -273,6 +274,15 @@ const styles = StyleSheet.create({
     color: "#666",
     fontSize: 16,
     fontStyle: "italic",
+  },
+  // Bottom scrollable content
+  bottomContent: {
+    flex: 1,
+    marginTop: 20,
+  },
+  bottomScrollContent: {
+    paddingHorizontal: 20,
+    paddingBottom: 90, // Reducido para eliminar espacio en blanco
   },
   actionButtons: {
     flexDirection: "row",
@@ -343,10 +353,5 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     marginHorizontal: 8,
-  },
-  iconPlaceholder: {
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "transparent",
   },
 })

@@ -14,13 +14,7 @@ import {
 import { useState } from "react"
 import Tarjeta from "../models/tarjeta"
 import { useTarjetas } from "../context/TarjetasContext"
-
-// Componente de icono simple
-const Icon = ({ name, size = 24, color = "#000" }) => (
-  <View style={[styles.iconPlaceholder, { width: size, height: size }]}>
-    <Text style={{ color, fontSize: size * 0.6, fontWeight: "bold" }}>{name}</Text>
-  </View>
-)
+import { Ionicons } from "@expo/vector-icons"
 
 // Componente de vista previa de la tarjeta
 const CardPreview = ({ cardName, cardNumber, cardHolder, expiryDate }) => {
@@ -160,7 +154,7 @@ export default function CrearTarjeta({ navigation }) {
       {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity style={styles.backButton} onPress={handleGoBack}>
-          <Icon name="←" size={24} color="#93d2fd" />
+          <Ionicons name="arrow-back" size={24} color="#93d2fd" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Crear Tarjeta</Text>
         <View style={styles.headerSpacer} />
@@ -390,10 +384,5 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     color: "#ffffff",
-  },
-  iconPlaceholder: {
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "transparent",
   },
 })

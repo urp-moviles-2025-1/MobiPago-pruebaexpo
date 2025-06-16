@@ -1,21 +1,28 @@
 import { View, Text, StyleSheet, SafeAreaView, ScrollView, TouchableOpacity, StatusBar, Alert } from "react-native"
 import { usePerfil } from "../context/PerfilContext"
+import { Ionicons, MaterialIcons, AntDesign } from "@expo/vector-icons"
 import Navbar from "../components/navbar"
 
-// Componente de icono simple
-const Icon = ({ name, size = 24, color = "#000" }) => (
-  <View style={[styles.iconPlaceholder, { width: size, height: size }]}>
-    <Text style={{ color, fontSize: size * 0.6, fontWeight: "bold" }}>{name}</Text>
-  </View>
-)
-
 // Componente de opción de menú
-const MenuOption = ({ title, onPress, iconColor = "#000" }) => (
-  <TouchableOpacity style={styles.menuOption} onPress={onPress}>
-    <Text style={styles.menuOptionText}>{title}</Text>
-    <Icon name="→" size={20} color={iconColor} />
-  </TouchableOpacity>
-)
+const MenuOption = ({ title, onPress, iconName, iconLibrary = "Ionicons" }) => {
+  const renderIcon = () => {
+    switch (iconLibrary) {
+      case "MaterialIcons":
+        return <MaterialIcons name={iconName} size={20} color="#666" />
+      case "AntDesign":
+        return <AntDesign name={iconName} size={20} color="#666" />
+      default:
+        return <Ionicons name={iconName} size={20} color="#666" />
+    }
+  }
+
+  return (
+    <TouchableOpacity style={styles.menuOption} onPress={onPress}>
+      <Text style={styles.menuOptionText}>{title}</Text>
+      {renderIcon()}
+    </TouchableOpacity>
+  )
+}
 
 export default function MiPerfil({ navigation }) {
   const { perfil } = usePerfil()
@@ -80,7 +87,7 @@ export default function MiPerfil({ navigation }) {
       {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity style={styles.backButton} onPress={handleGoBack}>
-          <Icon name="←" size={24} color="#93d2fd" />
+          <Ionicons name="arrow-back" size={24} color="#ffffff" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Mi Perfil</Text>
         <View style={styles.headerSpacer} />
@@ -105,16 +112,16 @@ export default function MiPerfil({ navigation }) {
       >
         {/* Menu Options */}
         <View style={styles.menuContainer}>
-          <MenuOption title="Editar Información" onPress={handleEditarInformacion} />
-          <MenuOption title="Métodos de Pago" onPress={handleMetodosPago} />
-          <MenuOption title="Notificaciones" onPress={handleNotificaciones} />
-          <MenuOption title="Soporte" onPress={handleSoporte} />
+          <MenuOption title="Editar Información" onPress={handleEditarInformacion} iconName="create-outline" />
+          <MenuOption title="Métodos de Pago" onPress={handleMetodosPago} iconName="card-outline" />
+          <MenuOption title="Notificaciones" onPress={handleNotificaciones} iconName="notifications-outline" />
+          <MenuOption title="Soporte" onPress={handleSoporte} iconName="help-circle-outline" />
         </View>
 
         {/* Logout Button */}
         <TouchableOpacity style={styles.logoutButton} onPress={handleCerrarSesion}>
           <Text style={styles.logoutText}>Cerrar sesión</Text>
-          <Icon name="⏻" size={20} color="#ffffff" />
+          <Ionicons name="log-out" size={20} color="#ffffff" />
         </TouchableOpacity>
       </ScrollView>
 
@@ -142,9 +149,11 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: "#93d2fd",
+    backgroundColor: "rgba(147, 210, 253, 0.3)", // Fondo semi-transparente para mejor visibilidad
     justifyContent: "center",
     alignItems: "center",
+    borderWidth: 1,
+    borderColor: "#ffffff",
   },
   headerTitle: {
     fontSize: 24,
@@ -190,7 +199,7 @@ const styles = StyleSheet.create({
     paddingTop: 30,
   },
   scrollContent: {
-    paddingBottom: 100, // Extra padding for the elevated QR button
+    paddingBottom: 90, // Reducido para eliminar espacio en blanco
   },
   menuContainer: {
     marginBottom: 40,
@@ -241,10 +250,5 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#ffffff",
     marginRight: 10,
-  },
-  iconPlaceholder: {
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "transparent",
   },
 })

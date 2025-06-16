@@ -1,11 +1,5 @@
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native"
-
-// Componente de icono simple
-const Icon = ({ name, size = 24, color = "#000" }) => (
-  <View style={[styles.iconPlaceholder, { width: size, height: size }]}>
-    <Text style={{ color, fontSize: size * 0.6, fontWeight: "bold" }}>{name}</Text>
-  </View>
-)
+import { View, StyleSheet, TouchableOpacity } from "react-native"
+import { Ionicons, MaterialIcons } from "@expo/vector-icons"
 
 export default function Navbar({ navigation, activeScreen = "Home" }) {
   const handleNavigateToHome = () => {
@@ -42,44 +36,44 @@ export default function Navbar({ navigation, activeScreen = "Home" }) {
     <View style={styles.navbarContainer}>
       {/* QR Button - Positioned above the navbar */}
       <TouchableOpacity style={styles.qrButton} onPress={handleQRAction}>
-        <Icon name="⚏" size={32} color="#ffffff" />
+        <MaterialIcons name="qr-code-scanner" size={32} color="#ffffff" />
       </TouchableOpacity>
 
       {/* Bottom Navigation */}
       <View style={styles.bottomNav}>
-        <TouchableOpacity
-          style={[styles.navItem, activeScreen === "Home" && styles.activeNavItem]}
-          onPress={handleNavigateToHome}
-        >
-          <Icon name="🏠" size={24} color={activeScreen === "Home" ? "#257beb" : "#000"} />
-          <Text style={[styles.navText, activeScreen === "Home" && styles.activeNavText]}>Inicio</Text>
+        <TouchableOpacity style={styles.navItem} onPress={handleNavigateToHome}>
+          <Ionicons
+            name={activeScreen === "Home" ? "home" : "home-outline"}
+            size={28}
+            color={activeScreen === "Home" ? "#257beb" : "#000"}
+          />
         </TouchableOpacity>
 
-        <TouchableOpacity
-          style={[styles.navItem, activeScreen === "Tarjetas" && styles.activeNavItem]}
-          onPress={handleNavigateToTarjetas}
-        >
-          <Icon name="💳" size={24} color={activeScreen === "Tarjetas" ? "#257beb" : "#000"} />
-          <Text style={[styles.navText, activeScreen === "Tarjetas" && styles.activeNavText]}>Mis tarjetas</Text>
+        <TouchableOpacity style={styles.navItem} onPress={handleNavigateToTarjetas}>
+          <Ionicons
+            name={activeScreen === "Tarjetas" ? "card" : "card-outline"}
+            size={28}
+            color={activeScreen === "Tarjetas" ? "#257beb" : "#000"}
+          />
         </TouchableOpacity>
 
         {/* Spacer for QR button */}
         <View style={styles.qrSpacer} />
 
-        <TouchableOpacity
-          style={[styles.navItem, activeScreen === "Statistics" && styles.activeNavItem]}
-          onPress={handleNavigateToStatistics}
-        >
-          <Icon name="📊" size={24} color={activeScreen === "Statistics" ? "#257beb" : "#000"} />
-          <Text style={[styles.navText, activeScreen === "Statistics" && styles.activeNavText]}>Estadísticas</Text>
+        <TouchableOpacity style={styles.navItem} onPress={handleNavigateToStatistics}>
+          <Ionicons
+            name={activeScreen === "Statistics" ? "stats-chart" : "stats-chart-outline"}
+            size={28}
+            color={activeScreen === "Statistics" ? "#257beb" : "#000"}
+          />
         </TouchableOpacity>
 
-        <TouchableOpacity
-          style={[styles.navItem, activeScreen === "MiPerfil" && styles.activeNavItem]}
-          onPress={handleNavigateToMiPerfil}
-        >
-          <Icon name="👤" size={24} color={activeScreen === "MiPerfil" ? "#257beb" : "#000"} />
-          <Text style={[styles.navText, activeScreen === "MiPerfil" && styles.activeNavText]}>Mi Perfil</Text>
+        <TouchableOpacity style={styles.navItem} onPress={handleNavigateToMiPerfil}>
+          <Ionicons
+            name={activeScreen === "MiPerfil" ? "person" : "person-outline"}
+            size={28}
+            color={activeScreen === "MiPerfil" ? "#257beb" : "#000"}
+          />
         </TouchableOpacity>
       </View>
     </View>
@@ -122,30 +116,11 @@ const styles = StyleSheet.create({
   navItem: {
     alignItems: "center",
     flex: 1,
-  },
-  activeNavItem: {
-    backgroundColor: "#ffffff",
-    borderRadius: 15,
-    paddingHorizontal: 15,
     paddingVertical: 8,
-  },
-  navText: {
-    marginTop: 5,
-    fontSize: 12,
-    color: "#000000",
-    fontWeight: "600",
-  },
-  activeNavText: {
-    color: "#257beb",
-    fontWeight: "bold",
+    // Eliminado el fondo blanco y otros estilos de activeNavItem
   },
   qrSpacer: {
     width: 60,
     height: 1,
-  },
-  iconPlaceholder: {
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "transparent",
   },
 })

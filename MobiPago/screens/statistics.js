@@ -1,15 +1,9 @@
 import { View, Text, StyleSheet, SafeAreaView, ScrollView, TouchableOpacity, StatusBar, Dimensions } from "react-native"
 import { usePerfil } from "../context/PerfilContext"
+import { Ionicons } from "@expo/vector-icons"
 import Navbar from "../components/navbar"
 
 const { width } = Dimensions.get("window")
-
-// Componente de icono simple
-const Icon = ({ name, size = 24, color = "#000" }) => (
-  <View style={[styles.iconPlaceholder, { width: size, height: size }]}>
-    <Text style={{ color, fontSize: size * 0.6, fontWeight: "bold" }}>{name}</Text>
-  </View>
-)
 
 // Componente de gráfico simple
 const SimpleChart = () => {
@@ -92,7 +86,7 @@ export default function Statistics({ navigation }) {
       {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity style={styles.backButton} onPress={handleGoBack}>
-          <Icon name="←" size={24} color="#93d2fd" />
+          <Ionicons name="arrow-back" size={24} color="#ffffff" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Estadísticas</Text>
         <View style={styles.headerSpacer} />
@@ -174,9 +168,11 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: "#93d2fd",
+    backgroundColor: "rgba(147, 210, 253, 0.3)", // Fondo semi-transparente para mejor visibilidad
     justifyContent: "center",
     alignItems: "center",
+    borderWidth: 1,
+    borderColor: "#ffffff",
   },
   headerTitle: {
     fontSize: 24,
@@ -190,7 +186,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollContent: {
-    paddingBottom: 100, // Extra padding for the elevated QR button
+    paddingBottom: 90, // Reducido para eliminar espacio en blanco
   },
   balanceSection: {
     alignItems: "center",
@@ -317,10 +313,5 @@ const styles = StyleSheet.create({
     color: "#666",
     fontSize: 16,
     fontStyle: "italic",
-  },
-  iconPlaceholder: {
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "transparent",
   },
 })

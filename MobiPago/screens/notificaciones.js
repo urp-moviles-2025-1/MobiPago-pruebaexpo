@@ -1,19 +1,13 @@
 import { View, Text, StyleSheet, SafeAreaView, ScrollView, TouchableOpacity, StatusBar } from "react-native"
 import { usePerfil } from "../context/PerfilContext"
-
-// Componente de icono simple
-const Icon = ({ name, size = 24, color = "#000" }) => (
-  <View style={[styles.iconPlaceholder, { width: size, height: size }]}>
-    <Text style={{ color, fontSize: size * 0.6, fontWeight: "bold" }}>{name}</Text>
-  </View>
-)
+import { Ionicons } from "@expo/vector-icons"
 
 // Componente de notificación individual
 const NotificationCard = ({ notification }) => {
   return (
     <View style={styles.notificationCard}>
       <View style={styles.notificationIcon}>
-        <Icon name="🔔" size={24} color="#ffffff" />
+        <Ionicons name="notifications" size={24} color="#ffffff" />
       </View>
       <View style={styles.notificationContent}>
         <Text style={styles.notificationTitle}>{notification.titulo}</Text>
@@ -123,7 +117,7 @@ export default function Notificaciones({ navigation }) {
       {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity style={styles.backButton} onPress={handleGoBack}>
-          <Icon name="←" size={24} color="#93d2fd" />
+          <Ionicons name="arrow-back" size={24} color="#93d2fd" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Notificaciones</Text>
         <View style={styles.headerSpacer} />
@@ -136,7 +130,7 @@ export default function Notificaciones({ navigation }) {
           ))
         ) : (
           <View style={styles.noNotifications}>
-            <Icon name="🔔" size={48} color="#999" />
+            <Ionicons name="notifications-outline" size={48} color="#999" />
             <Text style={styles.noNotificationsTitle}>No hay notificaciones</Text>
             <Text style={styles.noNotificationsText}>Aquí aparecerán las notificaciones de tus transacciones</Text>
           </View>
@@ -249,10 +243,5 @@ const styles = StyleSheet.create({
     textAlign: "center",
     paddingHorizontal: 40,
     lineHeight: 22,
-  },
-  iconPlaceholder: {
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "transparent",
   },
 })

@@ -1,13 +1,7 @@
 import { View, Text, StyleSheet, SafeAreaView, ScrollView, TouchableOpacity, StatusBar } from "react-native"
 import { useTarjetas } from "../context/TarjetasContext"
+import { Ionicons } from "@expo/vector-icons"
 import Navbar from "../components/navbar"
-
-// Componente de icono simple
-const Icon = ({ name, size = 24, color = "#000" }) => (
-  <View style={[styles.iconPlaceholder, { width: size, height: size }]}>
-    <Text style={{ color, fontSize: size * 0.6, fontWeight: "bold" }}>{name}</Text>
-  </View>
-)
 
 // Componente de tarjeta individual
 const CardComponent = ({ tarjeta, index }) => {
@@ -82,7 +76,7 @@ export default function Tarjetas({ navigation }) {
       {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity style={styles.backButton} onPress={handleGoBack}>
-          <Icon name="←" size={24} color="#93d2fd" />
+          <Ionicons name="arrow-back" size={24} color="#ffffff" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Mis Tarjetas</Text>
         <View style={styles.headerSpacer} />
@@ -103,7 +97,7 @@ export default function Tarjetas({ navigation }) {
         {/* Botón Agregar Nueva Tarjeta */}
         <TouchableOpacity style={styles.addCardButton} onPress={handleAddNewCard}>
           <Text style={styles.addCardText}>Agregar Nueva Tarjeta</Text>
-          <Icon name="+" size={24} color="#ffffff" />
+          <Ionicons name="add" size={24} color="#ffffff" />
         </TouchableOpacity>
       </ScrollView>
 
@@ -130,9 +124,11 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: "#93d2fd",
+    backgroundColor: "rgba(147, 210, 253, 0.3)", // Fondo semi-transparente para mejor visibilidad
     justifyContent: "center",
     alignItems: "center",
+    borderWidth: 1,
+    borderColor: "#ffffff",
   },
   headerTitle: {
     fontSize: 24,
@@ -147,7 +143,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   scrollContent: {
-    paddingBottom: 100, // Extra padding for the elevated QR button
+    paddingBottom: 90, // Reducido para eliminar espacio en blanco
   },
   cardsContainer: {
     paddingBottom: 20,
@@ -227,10 +223,5 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#ffffff",
     marginRight: 10,
-  },
-  iconPlaceholder: {
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "transparent",
   },
 })
