@@ -1,5 +1,6 @@
 import { ScrollView, View, Text, StyleSheet, SafeAreaView, TouchableOpacity, StatusBar } from "react-native"
 import { usePerfil } from "./context/PerfilContext"
+import Navbar from "./components/navbar"
 
 // Componente de icono simple
 const Icon = ({ name, size = 24, color = "#000" }) => (
@@ -29,26 +30,7 @@ export default function App({ navigation }) {
     return `S/.${balance.toLocaleString("es-PE", { minimumFractionDigits: 3 })}`
   }
 
-  // Función para navegar a estadísticas
-  const handleNavigateToStatistics = () => {
-    if (navigation) {
-      navigation.navigate("Statistics")
-    }
-  }
-
-  const handleNavigateToTarjetas = () => {
-    if (navigation) {
-      navigation.navigate("Tarjetas")
-    }
-  }
-
-  const handleNavigateToMiPerfil = () => {
-    if (navigation) {
-      navigation.navigate("MiPerfil")
-    }
-  }
-
-  // Agregar función para navegar a notificaciones
+  // Función para navegar a notificaciones
   const handleNavigateToNotifications = () => {
     if (navigation) {
       navigation.navigate("Notificaciones")
@@ -133,15 +115,15 @@ export default function App({ navigation }) {
           </TouchableOpacity>
           <TouchableOpacity style={styles.actionButton}>
             <View style={styles.actionButtonIcon}>
+              <Icon name="🔧" size={28} color="#000" />
+            </View>
+            <Text style={styles.actionButtonText}>Servicios</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.actionButton}>
+            <View style={styles.actionButtonIcon}>
               <Icon name="🔍" size={28} color="#000" />
             </View>
             <Text style={styles.actionButtonText}>Transacciones</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.actionButton} onPress={handleNavigateToStatistics}>
-            <View style={styles.actionButtonIcon}>
-              <Icon name="📊" size={28} color="#000" />
-            </View>
-            <Text style={styles.actionButtonText}>Estadísticas</Text>
           </TouchableOpacity>
         </View>
 
@@ -153,9 +135,9 @@ export default function App({ navigation }) {
 
         {/* Main Action Buttons */}
         <View style={styles.mainActions}>
-          <TouchableOpacity style={styles.qrButton}>
-            <Text style={styles.mainActionText}>Mostrar QR</Text>
-            <Icon name="📱" size={20} color="#fff" />
+          <TouchableOpacity style={styles.scanButton}>
+            <Text style={styles.mainActionText}>Escanear</Text>
+            <Icon name="📷" size={20} color="#fff" />
           </TouchableOpacity>
           <TouchableOpacity style={styles.sendButton}>
             <Text style={styles.mainActionText}>Enviar</Text>
@@ -164,21 +146,8 @@ export default function App({ navigation }) {
         </View>
       </ScrollView>
 
-      {/* Bottom Navigation - FIXED AT BOTTOM */}
-      <View style={styles.bottomNav}>
-        <TouchableOpacity style={styles.navItem}>
-          <Icon name="🏠" size={24} color="#000" />
-          <Text style={styles.navText}>Inicio</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem} onPress={handleNavigateToTarjetas}>
-          <Icon name="💳" size={24} color="#000" />
-          <Text style={styles.navText}>Mis tarjetas</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem} onPress={handleNavigateToMiPerfil}>
-          <Icon name="👤" size={24} color="#000" />
-          <Text style={styles.navText}>Mi Perfil</Text>
-        </TouchableOpacity>
-      </View>
+      {/* New Navbar Component */}
+      <Navbar navigation={navigation} activeScreen="Home" />
     </SafeAreaView>
   )
 }
@@ -240,7 +209,7 @@ const styles = StyleSheet.create({
   },
   scrollContent: {
     padding: 20,
-    paddingBottom: 20,
+    paddingBottom: 100, // Extra padding for the elevated QR button
   },
   movementsCard: {
     backgroundColor: "#93d2fd",
@@ -349,7 +318,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     marginBottom: 20,
   },
-  qrButton: {
+  scanButton: {
     backgroundColor: "#257beb",
     borderRadius: 15,
     padding: 20,
@@ -374,22 +343,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     marginHorizontal: 8,
-  },
-  bottomNav: {
-    flexDirection: "row",
-    backgroundColor: "#93d2fd",
-    paddingVertical: 15,
-    paddingHorizontal: 20,
-    justifyContent: "space-around",
-  },
-  navItem: {
-    alignItems: "center",
-  },
-  navText: {
-    marginTop: 5,
-    fontSize: 12,
-    color: "#000000",
-    fontWeight: "600",
   },
   iconPlaceholder: {
     justifyContent: "center",

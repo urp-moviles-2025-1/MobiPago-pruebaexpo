@@ -1,5 +1,6 @@
 import { View, Text, StyleSheet, SafeAreaView, ScrollView, TouchableOpacity, StatusBar, Alert } from "react-native"
 import { usePerfil } from "../context/PerfilContext"
+import Navbar from "../components/navbar"
 
 // Componente de icono simple
 const Icon = ({ name, size = 24, color = "#000" }) => (
@@ -72,18 +73,6 @@ export default function MiPerfil({ navigation }) {
     ])
   }
 
-  const handleNavigateToHome = () => {
-    if (navigation) {
-      navigation.navigate("Home")
-    }
-  }
-
-  const handleNavigateToTarjetas = () => {
-    if (navigation) {
-      navigation.navigate("Tarjetas")
-    }
-  }
-
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#257beb" />
@@ -109,7 +98,11 @@ export default function MiPerfil({ navigation }) {
         </Text>
       </View>
 
-      <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
+      <ScrollView
+        style={styles.content}
+        contentContainerStyle={styles.scrollContent}
+        showsVerticalScrollIndicator={false}
+      >
         {/* Menu Options */}
         <View style={styles.menuContainer}>
           <MenuOption title="Editar Información" onPress={handleEditarInformacion} />
@@ -125,21 +118,8 @@ export default function MiPerfil({ navigation }) {
         </TouchableOpacity>
       </ScrollView>
 
-      {/* Bottom Navigation */}
-      <View style={styles.bottomNav}>
-        <TouchableOpacity style={styles.navItem} onPress={handleNavigateToHome}>
-          <Icon name="🏠" size={24} color="#000" />
-          <Text style={styles.navText}>Inicio</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem} onPress={handleNavigateToTarjetas}>
-          <Icon name="💳" size={24} color="#000" />
-          <Text style={styles.navText}>Mis tarjetas</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={[styles.navItem, styles.activeNavItem]}>
-          <Icon name="👤" size={24} color="#257beb" />
-          <Text style={[styles.navText, styles.activeNavText]}>Mi Perfil</Text>
-        </TouchableOpacity>
-      </View>
+      {/* New Navbar Component */}
+      <Navbar navigation={navigation} activeScreen="MiPerfil" />
     </SafeAreaView>
   )
 }
@@ -209,6 +189,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingTop: 30,
   },
+  scrollContent: {
+    paddingBottom: 100, // Extra padding for the elevated QR button
+  },
   menuContainer: {
     marginBottom: 40,
   },
@@ -258,34 +241,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#ffffff",
     marginRight: 10,
-  },
-  bottomNav: {
-    flexDirection: "row",
-    backgroundColor: "#93d2fd",
-    paddingVertical: 15,
-    paddingHorizontal: 20,
-    justifyContent: "space-around",
-    borderTopWidth: 1,
-    borderTopColor: "rgba(0,0,0,0.1)",
-  },
-  navItem: {
-    alignItems: "center",
-  },
-  activeNavItem: {
-    backgroundColor: "#ffffff",
-    borderRadius: 15,
-    paddingHorizontal: 15,
-    paddingVertical: 8,
-  },
-  navText: {
-    marginTop: 5,
-    fontSize: 12,
-    color: "#000000",
-    fontWeight: "600",
-  },
-  activeNavText: {
-    color: "#257beb",
-    fontWeight: "bold",
   },
   iconPlaceholder: {
     justifyContent: "center",

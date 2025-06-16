@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, SafeAreaView, ScrollView, TouchableOpacity, StatusBar, Dimensions } from "react-native"
-import { perfil } from "../data/dummy-data"
-
+import { usePerfil } from "../context/PerfilContext"
+import Navbar from "../components/navbar"
 
 const { width } = Dimensions.get("window")
 
@@ -66,6 +66,8 @@ const SimpleChart = () => {
 }
 
 export default function Statistics({ navigation }) {
+  const { perfil } = usePerfil()
+
   // Función para formatear el monto
   const formatAmount = (amount) => {
     const absAmount = Math.abs(amount)
@@ -96,7 +98,11 @@ export default function Statistics({ navigation }) {
         <View style={styles.headerSpacer} />
       </View>
 
-      <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
+      <ScrollView
+        style={styles.content}
+        contentContainerStyle={styles.scrollContent}
+        showsVerticalScrollIndicator={false}
+      >
         {/* Balance Section */}
         <View style={styles.balanceSection}>
           <Text style={styles.balanceLabel}>Saldo Actual</Text>
@@ -144,6 +150,9 @@ export default function Statistics({ navigation }) {
           )}
         </View>
       </ScrollView>
+
+      {/* New Navbar Component */}
+      <Navbar navigation={navigation} activeScreen="Statistics" />
     </SafeAreaView>
   )
 }
@@ -179,6 +188,9 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
+  },
+  scrollContent: {
+    paddingBottom: 100, // Extra padding for the elevated QR button
   },
   balanceSection: {
     alignItems: "center",

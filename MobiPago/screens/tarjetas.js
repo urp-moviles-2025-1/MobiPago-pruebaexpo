@@ -1,5 +1,6 @@
 import { View, Text, StyleSheet, SafeAreaView, ScrollView, TouchableOpacity, StatusBar } from "react-native"
 import { useTarjetas } from "../context/TarjetasContext"
+import Navbar from "../components/navbar"
 
 // Componente de icono simple
 const Icon = ({ name, size = 24, color = "#000" }) => (
@@ -87,7 +88,11 @@ export default function Tarjetas({ navigation }) {
         <View style={styles.headerSpacer} />
       </View>
 
-      <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
+      <ScrollView
+        style={styles.content}
+        contentContainerStyle={styles.scrollContent}
+        showsVerticalScrollIndicator={false}
+      >
         {/* Tarjetas */}
         <View style={styles.cardsContainer}>
           {tarjetas.map((tarjeta, index) => (
@@ -102,21 +107,8 @@ export default function Tarjetas({ navigation }) {
         </TouchableOpacity>
       </ScrollView>
 
-      {/* Bottom Navigation */}
-      <View style={styles.bottomNav}>
-        <TouchableOpacity style={styles.navItem} onPress={() => navigation?.navigate("Home")}>
-          <Icon name="🏠" size={24} color="#000" />
-          <Text style={styles.navText}>Inicio</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={[styles.navItem, styles.activeNavItem]}>
-          <Icon name="💳" size={24} color="#257beb" />
-          <Text style={[styles.navText, styles.activeNavText]}>Mis tarjetas</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem}>
-          <Icon name="👤" size={24} color="#000" />
-          <Text style={styles.navText}>Mi Perfil</Text>
-        </TouchableOpacity>
-      </View>
+      {/* New Navbar Component */}
+      <Navbar navigation={navigation} activeScreen="Tarjetas" />
     </SafeAreaView>
   )
 }
@@ -153,6 +145,9 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     paddingHorizontal: 20,
+  },
+  scrollContent: {
+    paddingBottom: 100, // Extra padding for the elevated QR button
   },
   cardsContainer: {
     paddingBottom: 20,
@@ -232,32 +227,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#ffffff",
     marginRight: 10,
-  },
-  bottomNav: {
-    flexDirection: "row",
-    backgroundColor: "#93d2fd",
-    paddingVertical: 15,
-    paddingHorizontal: 20,
-    justifyContent: "space-around",
-  },
-  navItem: {
-    alignItems: "center",
-  },
-  activeNavItem: {
-    backgroundColor: "#ffffff",
-    borderRadius: 15,
-    paddingHorizontal: 15,
-    paddingVertical: 8,
-  },
-  navText: {
-    marginTop: 5,
-    fontSize: 12,
-    color: "#000000",
-    fontWeight: "600",
-  },
-  activeNavText: {
-    color: "#257beb",
-    fontWeight: "bold",
   },
   iconPlaceholder: {
     justifyContent: "center",
