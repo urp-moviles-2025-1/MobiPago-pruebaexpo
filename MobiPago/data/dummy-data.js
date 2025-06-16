@@ -1,15 +1,15 @@
-import Perfil from "../models/perfil.js";
-import Tarjeta from "../models/tarjeta.js";
-import Transaccion from "../models/transacciones.js";
+import Perfil from "../models/perfil.js"
+import Tarjeta from "../models/tarjeta.js"
+import Transaccion from "../models/transaccion.js"
 
 // Instancias de perfiles
 export const perfiles = [
-  new Perfil(1, "Carlos R.", "Lucar", "carlos.lucar", "password123", 12000, []),
-  new Perfil(2, "Maria A.", "Lopez", "maria.lopez", "password456", 15000, []),
-  new Perfil(3, "Juan P.", "Gonzalez", "juan.gonzalez", "password789", 5000, []),
-  new Perfil(4, "Ana M.", "Martínez", "ana.martinez", "password101", 8000, []),
-  new Perfil(5, "Luis G.", "Fernández", "luis.fernandez", "password202", 10000, []),
-];
+  new Perfil(1, "Carlos R.", "Lucar", "carlos.lucar", "password123", 12000, [], "999 999 999"),
+  new Perfil(2, "Maria A.", "Lopez", "maria.lopez", "password456", 15000, [], "888 888 888"),
+  new Perfil(3, "Juan P.", "Gonzalez", "juan.gonzalez", "password789", 5000, [], "777 777 777"),
+  new Perfil(4, "Ana M.", "Martínez", "ana.martinez", "password101", 8000, [], "666 666 666"),
+  new Perfil(5, "Luis G.", "Fernández", "luis.fernandez", "password202", 10000, [], "555 555 555"),
+]
 
 // Datos de transacciones de ejemplo con valores positivos (sin valores negativos)
 const transaccionesEjemplo = [
@@ -28,59 +28,80 @@ const transaccionesEjemplo = [
   new Transaccion(13, 1, 2, 350.0, "12/09/2025", "15:30"), // De Maria a Carlos
   new Transaccion(14, 3, 5, 550.0, "12/09/2025", "18:00"), // De Luis a Juan
   new Transaccion(15, 4, 5, 600.0, "12/09/2025", "19:10"), // De Luis a Ana
-];
+]
 
 // Asignar las transacciones a los perfiles correspondientes
 perfiles[0].transacciones = [
-  transaccionesEjemplo[0],
-  transaccionesEjemplo[3],
-  transaccionesEjemplo[5],
-  transaccionesEjemplo[10],
-  transaccionesEjemplo[13],
-];
+  transaccionesEjemplo[0], // Envió a Maria
+  transaccionesEjemplo[1], // Recibió de Maria
+  transaccionesEjemplo[2], // Envió a Juan
+  transaccionesEjemplo[3], // Recibió de Juan
+  transaccionesEjemplo[4], // Envió a Ana
+  transaccionesEjemplo[9], // Recibió de Luis
+  transaccionesEjemplo[12], // Recibió de Maria
+]
+
 perfiles[1].transacciones = [
-  transaccionesEjemplo[1],
-  transaccionesEjemplo[4],
-  transaccionesEjemplo[7],
-  transaccionesEjemplo[11],
-  transaccionesEjemplo[14],
-];
+  transaccionesEjemplo[0], // Recibió de Carlos
+  transaccionesEjemplo[1], // Envió a Carlos
+  transaccionesEjemplo[5], // Envió a Luis
+  transaccionesEjemplo[6], // Recibió de Ana
+  transaccionesEjemplo[10], // Recibió de Juan
+  transaccionesEjemplo[12], // Envió a Carlos
+]
+
 perfiles[2].transacciones = [
-  transaccionesEjemplo[2],
-  transaccionesEjemplo[8],
-  transaccionesEjemplo[12],
-  transaccionesEjemplo[6],
-  transaccionesEjemplo[9],
-];
+  transaccionesEjemplo[2], // Recibió de Carlos
+  transaccionesEjemplo[3], // Envió a Carlos
+  transaccionesEjemplo[7], // Recibió de Ana
+  transaccionesEjemplo[10], // Envió a Maria
+  transaccionesEjemplo[11], // Recibió de Luis
+  transaccionesEjemplo[13], // Recibió de Luis
+]
+
 perfiles[3].transacciones = [
-  transaccionesEjemplo[9],
-  transaccionesEjemplo[15],
-  transaccionesEjemplo[13],
-  transaccionesEjemplo[7],
-  transaccionesEjemplo[4],
-];
+  transaccionesEjemplo[4], // Recibió de Carlos
+  transaccionesEjemplo[6], // Envió a Maria
+  transaccionesEjemplo[7], // Envió a Juan
+  transaccionesEjemplo[8], // Envió a Luis
+  transaccionesEjemplo[14], // Recibió de Luis
+]
+
 perfiles[4].transacciones = [
-  transaccionesEjemplo[6],
-  transaccionesEjemplo[14],
-  transaccionesEjemplo[12],
-  transaccionesEjemplo[8],
-  transaccionesEjemplo[10],
-];
+  transaccionesEjemplo[5], // Recibió de Maria
+  transaccionesEjemplo[8], // Recibió de Ana
+  transaccionesEjemplo[9], // Envió a Carlos
+  transaccionesEjemplo[11], // Envió a Juan
+  transaccionesEjemplo[13], // Envió a Juan
+  transaccionesEjemplo[14], // Envió a Ana
+]
 
 // Instancias de tarjetas de ejemplo asociadas a los perfiles (con foreign key `perfilId`)
 export const tarjetas = [
-  new Tarjeta("Tarjeta Principal Carlos", "4532 1234 5678 9012", "Carlos R. Lucar", "12/27", "123", perfiles[0].id),
-  new Tarjeta("Tarjeta Secundaria Carlos", "4532 2345 6789 0123", "Carlos R. Lucar", "12/26", "321", perfiles[0].id),
-  new Tarjeta("Tarjeta Principal Maria", "5555 4444 3333 2222", "Maria A. Lopez", "08/26", "456", perfiles[1].id),
-  new Tarjeta("Tarjeta Secundaria Maria", "5555 5555 4444 3333", "Maria A. Lopez", "09/27", "654", perfiles[1].id),
-  new Tarjeta("Tarjeta Principal Juan", "6666 7777 8888 9999", "Juan P. Gonzalez", "05/24", "789", perfiles[2].id),
-  new Tarjeta("Tarjeta Secundaria Juan", "6666 8888 7777 6666", "Juan P. Gonzalez", "06/25", "987", perfiles[2].id),
-  new Tarjeta("Tarjeta Principal Ana", "7777 8888 9999 0000", "Ana M. Martínez", "11/26", "112", perfiles[3].id),
-  new Tarjeta("Tarjeta Secundaria Ana", "7777 9999 8888 0000", "Ana M. Martínez", "07/27", "211", perfiles[3].id),
-  new Tarjeta("Tarjeta Principal Luis", "8888 9999 0000 1111", "Luis G. Fernández", "01/25", "334", perfiles[4].id),
-  new Tarjeta("Tarjeta Secundaria Luis", "8888 1111 9999 0000", "Luis G. Fernández", "03/25", "433", perfiles[4].id),
-];
+  new Tarjeta("Tarjeta Principal Carlos", "4532123456789012", "Carlos R. Lucar", "12/27", "123", perfiles[0].id),
+  new Tarjeta("Tarjeta Secundaria Carlos", "4532234567890123", "Carlos R. Lucar", "12/26", "321", perfiles[0].id),
+  new Tarjeta("Tarjeta Principal Maria", "5555444433332222", "Maria A. Lopez", "08/26", "456", perfiles[1].id),
+  new Tarjeta("Tarjeta Secundaria Maria", "5555555544443333", "Maria A. Lopez", "09/27", "654", perfiles[1].id),
+  new Tarjeta("Tarjeta Principal Juan", "6666777788889999", "Juan P. Gonzalez", "05/24", "789", perfiles[2].id),
+  new Tarjeta("Tarjeta Secundaria Juan", "6666888877776666", "Juan P. Gonzalez", "06/25", "987", perfiles[2].id),
+  new Tarjeta("Tarjeta Principal Ana", "7777888899990000", "Ana M. Martínez", "11/26", "112", perfiles[3].id),
+  new Tarjeta("Tarjeta Secundaria Ana", "7777999988880000", "Ana M. Martínez", "07/27", "211", perfiles[3].id),
+  new Tarjeta("Tarjeta Principal Luis", "8888999900001111", "Luis G. Fernández", "01/25", "334", perfiles[4].id),
+  new Tarjeta("Tarjeta Secundaria Luis", "8888111199990000", "Luis G. Fernández", "03/25", "433", perfiles[4].id),
+]
 
 // Mantener compatibilidad con código existente
-export const tarjeta = tarjetas[0];
+export const tarjeta = tarjetas[0]
 
+// Exportar el perfil principal (Carlos) para compatibilidad
+export const perfil = perfiles[0]
+
+// Función helper para obtener un perfil por ID
+export const getPerfilById = (id) => {
+  return perfiles.find((perfil) => perfil.id === id)
+}
+
+// Función helper para obtener tarjetas por perfil ID
+export const getTarjetasByPerfilId = (perfilId) => {
+  return tarjetas.filter((tarjeta) => tarjeta.perfilId === perfilId)
+}

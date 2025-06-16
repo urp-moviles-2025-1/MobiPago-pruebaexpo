@@ -1,13 +1,7 @@
 "use client"
 
 import { createContext, useContext, useState } from "react"
-import Tarjeta from "../models/tarjeta"
-
-// Datos iniciales de tarjetas
-const tarjetasIniciales = [
-  new Tarjeta("Tarjeta Principal", "4532123456789012", "Carlos R. Lucar", "12/27", "123"),
-  new Tarjeta("Tarjeta Principal 2", "5555444433332222", "Carlos R. Lucar", "08/26", "456"),
-]
+import { getTarjetasByPerfilId } from "../data/dummy-data"
 
 const TarjetasContext = createContext()
 
@@ -20,7 +14,8 @@ export const useTarjetas = () => {
 }
 
 export const TarjetasProvider = ({ children }) => {
-  const [tarjetas, setTarjetas] = useState(tarjetasIniciales)
+  // Obtener tarjetas del perfil principal (Carlos - ID: 1)
+  const [tarjetas, setTarjetas] = useState(getTarjetasByPerfilId(1))
 
   const agregarTarjeta = (nuevaTarjeta) => {
     setTarjetas((prevTarjetas) => [...prevTarjetas, nuevaTarjeta])

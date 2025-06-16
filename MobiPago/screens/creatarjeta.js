@@ -14,6 +14,7 @@ import {
 import { useState } from "react"
 import Tarjeta from "../models/tarjeta"
 import { useTarjetas } from "../context/TarjetasContext"
+import { usePerfil } from "../context/PerfilContext"
 import { Ionicons } from "@expo/vector-icons"
 
 // Componente de vista previa de la tarjeta
@@ -43,6 +44,7 @@ const CardPreview = ({ cardName, cardNumber, cardHolder, expiryDate }) => {
 
 export default function CrearTarjeta({ navigation }) {
   const { agregarTarjeta } = useTarjetas()
+  const { perfil } = usePerfil()
 
   const [formData, setFormData] = useState({
     nombre: "",
@@ -118,13 +120,14 @@ export default function CrearTarjeta({ navigation }) {
     if (!validateForm()) return
 
     try {
-      // Crear nueva instancia de Tarjeta
+      // Crear nueva instancia de Tarjeta con el perfilId del usuario actual
       const nuevaTarjeta = new Tarjeta(
         formData.nombre.trim(),
         formData.numero.replace(/\s/g, ""), // Remover espacios para almacenar
         formData.titular.trim(),
         formData.fechaCaducidad.trim(),
         formData.cvv.trim(),
+        perfil.id, // Usar el ID del perfil actual
       )
 
       // Agregar la nueva tarjeta usando el contexto
@@ -154,7 +157,7 @@ export default function CrearTarjeta({ navigation }) {
       {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity style={styles.backButton} onPress={handleGoBack}>
-          <Ionicons name="arrow-back" size={24} color="#93d2fd" />
+          <Ionicons name="arrow-back" size={24} color="#ffffff" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Crear Tarjeta</Text>
         <View style={styles.headerSpacer} />
@@ -267,9 +270,11 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: "#93d2fd",
+    backgroundColor: "rgba(147, 210, 253, 0.3)",
     justifyContent: "center",
     alignItems: "center",
+    borderWidth: 1,
+    borderColor: "#ffffff",
   },
   headerTitle: {
     fontSize: 24,

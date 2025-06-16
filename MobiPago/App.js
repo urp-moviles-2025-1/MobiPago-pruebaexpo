@@ -4,7 +4,7 @@ import { Ionicons, MaterialIcons } from "@expo/vector-icons"
 import Navbar from "./components/navbar"
 
 export default function App({ navigation }) {
-  const { perfil } = usePerfil()
+  const { perfil, getTransaccionesFormateadas } = usePerfil()
 
   // Función para formatear el monto con el signo correcto
   const formatAmount = (amount) => {
@@ -30,6 +30,9 @@ export default function App({ navigation }) {
       navigation.navigate("Notificaciones")
     }
   }
+
+  // Obtener transacciones formateadas
+  const transaccionesFormateadas = getTransaccionesFormateadas()
 
   return (
     <SafeAreaView style={styles.container}>
@@ -70,26 +73,21 @@ export default function App({ navigation }) {
           showsVerticalScrollIndicator={false}
           nestedScrollEnabled={true}
         >
-          {perfil.transacciones && perfil.transacciones.length > 0 ? (
-            perfil.transacciones.map((transaccion, index) => (
+          {transaccionesFormateadas && transaccionesFormateadas.length > 0 ? (
+            transaccionesFormateadas.map((transaccion, index) => (
               <View key={transaccion.id || index}>
                 <View style={styles.transactionItem}>
                   <View style={styles.transactionInfo}>
-                    <Text style={styles.transactionName}>
-                      {transaccion.destinatario || transaccion.remitente || "Transacción"}
-                    </Text>
+                    <Text style={styles.transactionName}>{transaccion.nombreContacto}</Text>
                     <Text style={styles.transactionDate}>
-                      {transaccion.fecha || new Date().toLocaleDateString("es-PE")} -{" "}
-                      {transaccion.hora ||
-                        new Date().toLocaleTimeString("es-PE", { hour: "2-digit", minute: "2-digit" })}{" "}
-                      am
+                      {transaccion.fecha} - {transaccion.hora}
                     </Text>
                   </View>
                   <Text style={[styles.transactionAmount, transaccion.monto < 0 && styles.expenseAmount]}>
                     {formatAmount(transaccion.monto)}
                   </Text>
                 </View>
-                {index < perfil.transacciones.length - 1 && <View style={styles.separator} />}
+                {index < transaccionesFormateadas.length - 1 && <View style={styles.separator} />}
               </View>
             ))
           ) : (
@@ -282,7 +280,7 @@ const styles = StyleSheet.create({
   },
   bottomScrollContent: {
     paddingHorizontal: 20,
-    paddingBottom: 90, // Reducido para eliminar espacio en blanco
+    paddingBottom: 40, //eliminar espacio en blanco
   },
   actionButtons: {
     flexDirection: "row",

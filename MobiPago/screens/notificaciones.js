@@ -19,7 +19,7 @@ const NotificationCard = ({ notification }) => {
 }
 
 export default function Notificaciones({ navigation }) {
-  const { perfil } = usePerfil()
+  const { perfil, getTransaccionesFormateadas } = usePerfil()
 
   const handleGoBack = () => {
     if (navigation) {
@@ -55,31 +55,29 @@ export default function Notificaciones({ navigation }) {
 
   // Función para generar notificaciones basadas en las transacciones
   const generarNotificaciones = () => {
-    if (!perfil.transacciones || perfil.transacciones.length === 0) {
+    const transaccionesFormateadas = getTransaccionesFormateadas()
+
+    if (!transaccionesFormateadas || transaccionesFormateadas.length === 0) {
       return []
     }
 
-    return perfil.transacciones.map((transaccion, index) => {
+    return transaccionesFormateadas.map((transaccion, index) => {
       const monto = Math.abs(transaccion.monto)
       const tiempo = calcularTiempoTranscurrido(transaccion.fecha, transaccion.hora)
 
-      if (transaccion.monto > 0) {
-        // Dinero recibido
-        const remitente = transaccion.destinatario || transaccion.remitente || "Usuario desconocido"
+      if (transaccion.tipoTransaccion === "recibido") {
         return {
           id: transaccion.id || index,
           titulo: "¡Recarga exitosa!",
-          mensaje: `Tu saldo ha aumentado S/.${monto.toFixed(2)} de ${remitente}`,
+          mensaje: `Tu saldo ha aumentado S/.${monto.toFixed(2)} de ${transaccion.nombreContacto}`,
           tiempo: tiempo,
           tipo: "recibido",
         }
       } else {
-        // Dinero enviado
-        const destinatario = transaccion.destinatario || transaccion.remitente || "Usuario desconocido"
         return {
           id: transaccion.id || index,
           titulo: "¡Pago exitoso!",
-          mensaje: `Has enviado S/.${monto.toFixed(2)} a ${destinatario}`,
+          mensaje: `Has enviado S/.${monto.toFixed(2)} a ${transaccion.nombreContacto}`,
           tiempo: tiempo,
           tipo: "enviado",
         }
@@ -117,7 +115,7 @@ export default function Notificaciones({ navigation }) {
       {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity style={styles.backButton} onPress={handleGoBack}>
-          <Ionicons name="arrow-back" size={24} color="#93d2fd" />
+          <Ionicons name="arrow-back" size={24} color="#ffffff" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Notificaciones</Text>
         <View style={styles.headerSpacer} />
@@ -160,9 +158,11 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: "#93d2fd",
+    backgroundColor: "rgba(147, 210, 253, 0.3)",
     justifyContent: "center",
     alignItems: "center",
+    borderWidth: 1,
+    borderColor: "#ffffff",
   },
   headerTitle: {
     fontSize: 24,
