@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "MobiPago",
-    "slug": "MobiPago",
+    "name": "mobipago-prueba",
+    "slug": "mobipago-prueba",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -20,10 +20,16 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "com.carlosrluc.mobipagoprueba"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "1efed07b-0d90-4cef-898c-77e59b0c31b4"
+      }
     }
   }
 }
